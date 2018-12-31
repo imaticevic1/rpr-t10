@@ -1,19 +1,24 @@
 package ba.unsa.etf.rpr;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Main1 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Controller con = new Controller();
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation", con.getLocale());
+        Controller con = new Controller(primaryStage);
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/geografijaDAO.fxml"), bundle);
         loader.setController(con);
         Parent root = loader.load();

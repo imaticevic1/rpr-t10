@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotResult;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuItem;
@@ -62,9 +63,11 @@ public class Controller implements Runnable{
     public MenuItem enLanguage;
     public MenuItem frLanguage;
     public MenuItem deLanguage;
-    private Locale locale = new Locale("bs", "ba");
-    public Controller(){
+    private Stage primaryStage = new Stage();
+    ResourceBundle bundle = ResourceBundle.getBundle("Translation", new Locale("bs"));
+    public Controller(Stage stage){
         geo = GeografijaDAO.getInstance();
+        primaryStage = stage;
         }
 public void napraviDrzavu(String nazivGrada, String nazivDrzave, Integer brojStan){
     Grad g = new Grad();
@@ -112,6 +115,20 @@ private void omoguci(int broj){
             if (!Character.isDigit(s.charAt(i))) return false;
         return true;
     }
+    public void loadScene(String url){
+        bundle = ResourceBundle.getBundle("Translation", new Locale(url));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/geografijaDAO.fxml"), bundle);
+        loader.setController(this);
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        primaryStage.setTitle(bundle.getString("Drzaveigradovi"));
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.show();
+    }
     public void initialize(){
         mapa.put(1, gridPane1);
         mapa.put(2, gridPane2);
@@ -121,25 +138,26 @@ private void omoguci(int broj){
         bsLanguage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                locale = new Locale("bs");
+                loadScene("bs");
             }
         });
         frLanguage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                new Locale("fr");
+                loadScene("fr");
+
             }
         });
         enLanguage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                locale = new Locale("en_US");
+                loadScene("en_US");
             }
         });
         deLanguage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                locale = new Locale("de", "DE");
+                loadScene("de");
             }
         });
         meniOpcija.setOnAction(new EventHandler<ActionEvent>() {
@@ -212,9 +230,9 @@ private void omoguci(int broj){
                 stanovniciTekst.setText("");
                 drzavaTekst.setText("");
                 omoguci(2);
-                setGrad("Naziv glavnog grada");
-                setDrzava("Naziv države");
-                setStanovnici("Broj stanovnika glavnog grada");
+                setGrad(bundle.getString("Naziv_glavnog_grada"));
+                setDrzava(bundle.getString("Naziv_drzave"));
+                setStanovnici(bundle.getString("Broj_stanovnika_glavnog_grada"));
                 drzavaTekst.textProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -275,7 +293,7 @@ private void omoguci(int broj){
             public void handle(ActionEvent event) {
                 omoguci(3);
                 drzava1Tekst.setText("");
-                setDugmeLabela("Klikni me da saznaš glavni grad");
+                setDugmeLabela("Klikni_me");
                 setGlavni("");
                 drzava1Tekst.textProperty().addListener(new ChangeListener<String>() {
                     @Override
@@ -297,11 +315,11 @@ private void omoguci(int broj){
                     public void handle(ActionEvent event) {
                         if(ispravnaDrzava1)
                             if(geo.glavniGrad(drzava1Tekst.getText()) != null) {
-                                setDugmeLabela("Glavni grad je " + geo.glavniGrad(drzava1Tekst.getText()).getNaziv());
-                                setGlavni("Glavni grad države " + drzava1Tekst.getText() + " je " +
+                                setDugmeLabela("Glavni grad je" + " " + geo.glavniGrad(drzava1Tekst.getText()).getNaziv());
+                                setGlavni("Glavni grad države" + " " + drzava1Tekst.getText() + " je " +
                                         geo.glavniGrad(drzava1Tekst.getText()).getNaziv());
                             }
-                            else setDugmeLabela("Nema države u bazi!");
+                            else setDugmeLabela("Nema_drzave_u_bazi!");
                     }
                 });
 
@@ -345,12 +363,7 @@ private void omoguci(int broj){
             }
         });
     }
-    public Locale getLocale(){
-        return locale;
-    }
-    public void run(){
-
-    }
+    public void run(){}
 
     public String getBrisanje() {
         return brisanje.get();
