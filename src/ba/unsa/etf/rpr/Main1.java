@@ -12,12 +12,13 @@ import java.util.ResourceBundle;
 public class Main1 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
         Controller con = new Controller();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/geografijaDAO.fxml"), bundle);
-        primaryStage.setTitle(bundle.getString("Drzaveigradovi"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation", con.getLocale());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/geografijaDAO.fxml"), bundle);
         loader.setController(con);
-        primaryStage.setScene(new Scene(loader.load(), 600, 400));
+        Parent root = loader.load();
+        primaryStage.setTitle(bundle.getString("Drzaveigradovi"));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
     public static void main(String[] args){

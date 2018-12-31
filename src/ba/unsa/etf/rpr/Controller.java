@@ -9,9 +9,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -19,6 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Controller implements Runnable{
     public Hyperlink meniOpcija;
@@ -54,7 +58,11 @@ public class Controller implements Runnable{
     private SimpleStringProperty grad = new SimpleStringProperty("");
     private SimpleStringProperty stanovnici = new SimpleStringProperty("");
     private SimpleStringProperty dugmeLabela = new SimpleStringProperty("Klikni me da saznaš glavni grad!");
-
+    public MenuItem bsLanguage;
+    public MenuItem enLanguage;
+    public MenuItem frLanguage;
+    public MenuItem deLanguage;
+    private Locale locale = new Locale("bs", "ba");
     public Controller(){
         geo = GeografijaDAO.getInstance();
         }
@@ -68,7 +76,6 @@ public void napraviDrzavu(String nazivGrada, String nazivDrzave, Integer brojSta
     g.setDrzava(d);
     geo.dodajGrad(g);
     geo.dodajDrzavu(d);
-
 }
 private void omoguci(int broj){
        Thread thread1 = new Thread(new Runnable() {
@@ -111,6 +118,30 @@ private void omoguci(int broj){
         mapa.put(3, gridPane3);
         mapa.put(4, gridPane4);
         mapa.put(5, gridPane5);
+        bsLanguage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                locale = new Locale("bs");
+            }
+        });
+        frLanguage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                new Locale("fr");
+            }
+        });
+        enLanguage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                locale = new Locale("en_US");
+            }
+        });
+        deLanguage.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                locale = new Locale("de", "DE");
+            }
+        });
         meniOpcija.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -313,6 +344,9 @@ private void omoguci(int broj){
                 spisak.set(Main.ispisiGradove());
             }
         });
+    }
+    public Locale getLocale(){
+        return locale;
     }
     public void run(){
 
