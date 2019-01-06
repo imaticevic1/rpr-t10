@@ -1,5 +1,7 @@
 package ba.unsa.etf.rpr;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.pdf.PdfWriter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.swing.JRViewer;
 

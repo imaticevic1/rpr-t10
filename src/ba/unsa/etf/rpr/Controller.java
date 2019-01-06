@@ -18,6 +18,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class Controller implements Runnable{
     public MenuItem enLanguage;
     public MenuItem frLanguage;
     public MenuItem deLanguage;
+    public MenuItem saveItem;
     private Stage primaryStage = new Stage();
     ResourceBundle bundle = ResourceBundle.getBundle("Translation", new Locale("bs"));
     public Controller(Stage stage){
@@ -135,6 +137,22 @@ private void omoguci(int broj){
         mapa.put(3, gridPane3);
         mapa.put(4, gridPane4);
         mapa.put(5, gridPane5);
+        saveItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("saveAs.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+               stage.setScene(new Scene(root, 250, 150));
+               stage.setResizable(false);
+               stage.show();
+            }
+        });
         bsLanguage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

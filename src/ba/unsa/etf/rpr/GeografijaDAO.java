@@ -138,7 +138,7 @@ public class GeografijaDAO {
             ResultSet rs1;
             while(rs.next()){
                 Grad g = new Grad();
-                Drzava d = new Drzava();
+                Drzava d;
                 System.out.println(rs.getInt(1) + rs.getString(2) + rs.getInt(3) + rs.getInt(4));
                 g.setNaziv(rs.getString(2));
                 g.setBrojStanovnika(rs.getInt(3));

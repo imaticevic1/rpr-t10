@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="50.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/8.0.121"
+          fx:controller="ba.unsa.etf.rpr.saveAs">
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <padding>
+        <Insets topRightBottomLeft="10"/>
+    </padding>
+    <children>
+        <Label text="Izaberi format"  GridPane.columnSpan="2"/>
+        <ChoiceBox prefWidth="150" GridPane.columnIndex="2" GridPane.columnSpan="1" fx:id="formati" >
+            <items>
+                <FXCollections fx:factory="observableArrayList" >
+                    <String fx:value="pdf"/>
+                    <String fx:value="docx"/>
+                    <String fx:value="xlsx"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <Button text="Spremi" onAction="#spremiDugme" GridPane.rowIndex="1"/>
+    </children>
+</GridPane>
